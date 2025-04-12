@@ -1,7 +1,7 @@
 import GoalInput from "@/components/GoalInput";
 import GoalItem from "@/components/GoalItem";
 import { useState } from "react";
-import { Button, FlatList, StyleSheet, View } from "react-native";
+import { Button, FlatList, StatusBar, StyleSheet, View } from "react-native";
 
 export default function Index() {
 	const [courseGoals, setCourseGoals] = useState<{ text: string; id: string }[]>([]);
@@ -20,22 +20,29 @@ export default function Index() {
 		});
 	};
 
-	const addGoalBtnHandler = () => {
+	const showGoalModalHandler = () => {
 		setIsModalVisible(true);
 	};
 
+	const hideGoalModalHandler = () => {
+		setIsModalVisible(false);
+	};
+
 	return (
-		<View style={styles.appContainer}>
-			<Button title="Add new goal" color="#5e0acc" onPress={addGoalBtnHandler} />
-			<GoalInput onAddGoal={addGoalHandler} visible={isModalVisible} />
-			<FlatList
-				style={styles.goalsContainer}
-				alwaysBounceVertical={false}
-				data={courseGoals}
-				renderItem={({ item }) => <GoalItem item={item} onDelete={deleteGoalHandler} />}
-				keyExtractor={(item) => item.id}
-			/>
-		</View>
+		<>
+			<StatusBar barStyle="light-content" backgroundColor="#311b6b" />
+			<View style={styles.appContainer}>
+				<Button title="Add new goal" color="#5e0acc" onPress={showGoalModalHandler} />
+				<GoalInput onAddGoal={addGoalHandler} visible={isModalVisible} onClose={hideGoalModalHandler} />
+				<FlatList
+					style={styles.goalsContainer}
+					alwaysBounceVertical={false}
+					data={courseGoals}
+					renderItem={({ item }) => <GoalItem item={item} onDelete={deleteGoalHandler} />}
+					keyExtractor={(item) => item.id}
+				/>
+			</View>
+		</>
 	);
 }
 
