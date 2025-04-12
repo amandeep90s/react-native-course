@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Index() {
 	const [enteredGoalText, setEnteredGoalText] = useState<string>("");
@@ -16,14 +16,21 @@ export default function Index() {
 	return (
 		<View style={styles.appContainer}>
 			<View style={styles.inputContainer}>
-				<TextInput placeholder="Your course goal!" style={styles.textInput} onChangeText={goalInputHandler} />
+				<TextInput
+					placeholderTextColor="#ccc"
+					placeholder="Your course goal!"
+					style={styles.textInput}
+					onChangeText={goalInputHandler}
+				/>
 				<Button title="Add Goal" onPress={addGoalHandler} />
 			</View>
-			<View style={styles.goalsContainer}>
+			<ScrollView style={styles.goalsContainer} alwaysBounceVertical={false}>
 				{courseGoals.map((goal, index) => (
-					<Text key={`${goal}-${index}`}>{goal}</Text>
+					<View style={styles.goalItem} key={`${goal}-${index}`}>
+						<Text style={styles.goalText}>{goal}</Text>
+					</View>
 				))}
-			</View>
+			</ScrollView>
 		</View>
 	);
 }
@@ -52,5 +59,14 @@ const styles = StyleSheet.create({
 	},
 	goalsContainer: {
 		flex: 5,
+	},
+	goalItem: {
+		margin: 8,
+		padding: 8,
+		borderRadius: 6,
+		backgroundColor: "#5e0acc",
+	},
+	goalText: {
+		color: "#fff",
 	},
 });
